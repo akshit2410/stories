@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>create story</title>
+
+  </head>
+  <body>
+
+
+    <div class="login-page">
+  <div class="form">
+    <h2>create a story </h2>
+    <form class="register-form" method="post" action="/createstory">
+
+      <input name="title" type="text" placeholder="title" required />
+      <input name ="storydes" type="textarea" placeholder="story description" required/>
+      <input name="storycontent" type="textarea" placeholder="story full content" height="200" required/>
+
+      <button>Create</button>
+      <p class="message"><a href="/homepage">Back to Homepage</a></p>
+    </form>
+  </div>
+</div>
+
+  </body>
+</html>

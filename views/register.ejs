@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+
+  </head>
+  <body>
+    <script type="text/javascript">
+      $('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+    </script>
+    <div class="login-page">
+  <div class="form">
+    <h2>Register</h2>
+    <form class="register-form" method="POST" action="/login">
+
+      <input name="name" type="text" placeholder="name" required />
+      <input name ="password" type="password" placeholder="password" required/>
+      <input name="email" type="text" placeholder="email address" required/>
+      <input name="username" type="text" placeholder="username" required/>
+
+      <button>Sign in</button>
+      <p class="message">Already registered?<a href="/login">Back to login</a></p>
+    </form>
+  </div>
+</div>
+
+  </body>
+</html>
