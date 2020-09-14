@@ -88,8 +88,6 @@ app.get('/story/:id',(req,res)=>{
   Story.findById(val)
   .then(result =>{
     D.countDocuments(function (err, count) {
-
-
     res.render('story',{
       store:result,
       count:count
