@@ -18,6 +18,7 @@ const detailschema = new Schema({
     type:String,
     required:true
   },
+
 },{timestamps:true});
 
 const Details =  mongoose.model('detail',detailschema);
