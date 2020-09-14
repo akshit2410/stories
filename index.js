@@ -190,7 +190,7 @@ Detail.findOne({
           });
       });
     }else{
-      res.render("Wrongpass");
+      res.render("wrongpass");
     }
   }else {
     res.render("notuser");
