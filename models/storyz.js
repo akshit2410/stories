@@ -16,7 +16,6 @@ const storyschema = new Schema({
   },
   seq : {
     type:Number,
-    
   },
 },{timestamps:true});
 
