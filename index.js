@@ -8,16 +8,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-
+const PORT = process.env.PORT||3000;
 //connect to mongodb
 let userid;
 const dbUri="mongodb+srv://stories:stories123@stories.gltdd.mongodb.net/login?retryWrites=true&w=majority";
 
 mongoose.connect(dbUri,{useNewUrlParser:true ,useUnifiedTopology:true})
 .then((result)=>{
-app.listen(3000,()=>console.log('listening to 3000'))
+app.listen(PORT,()=>console.log('listening to 3000'))
 }
 )
 .catch((err)=> console.log(err));
