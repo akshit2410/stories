@@ -91,19 +91,19 @@ res.redirect('/')
 })
 
 app.get('/story/:id',(req,res)=>{
-  console.log(userid)
+  console.log(usernameid)
   const val=req.params.id;
   const deldata =new D({
-    userid: userid,
+    userid: usernameid,
     storyid:val,
   })
   D.create(deldata)
   const data = new Arr({
-    storyid : userid,
+    storyid : usernameid,
     seen:[val]
   })
 
-  Arr.findOne({storyid:userid})
+  Arr.findOne({storyid:usernameid})
   .then(user=>{
     if(user){
       let flag=false;
@@ -115,7 +115,7 @@ app.get('/story/:id',(req,res)=>{
       }
     );
     if(flag==false){
-      Arr.findOneAndUpdate({storyid: userid }, { $push: { seen: [val] }}, function(err, counte) {
+      Arr.findOneAndUpdate({storyid: usernameid }, { $push: { seen: [val] }}, function(err, counte) {
           if (err) throw err;
        });
       Story.findOneAndUpdate({_id: val }, { $inc: { seq: 1 }}, function(err, counte) {
@@ -151,7 +151,7 @@ app.get('/homepage',function(req, res) {
 
   D.countDocuments(function (err, count) {
     if (!err && count != 0) {
-      D.findOne({userid:userid}, function (err, doc) {
+      D.findOne({userid:usernameid}, function (err, doc) {
           if (err) {
               // handle error
           }
@@ -168,7 +168,7 @@ app.get('/homepage',function(req, res) {
       if(usernameid){
         // note that data is an array of objects, not a single object!
         res.render('homepage', {
-            stories:data, val:userid
+            stories:data, val:usernameid
         });
       }else{
         res.redirect('/login')
@@ -179,7 +179,7 @@ app.get('/homepage',function(req, res) {
 app.get('/logout',(req,res)=>{
   D.countDocuments(function (err, count) {
     if (!err && count != 0) {
-      D.findOne({userid:userid}, function (err, doc) {
+      D.findOne({userid:usernameid}, function (err, doc) {
           if (err) {
               // handle error
           }
@@ -193,7 +193,7 @@ res.redirect('logout')
 app.get('/createstory',(req,res)=>{
   D.countDocuments(function (err, count) {
     if (!err && count != 0) {
-      D.findOne({userid:userid}, function (err, doc) {
+      D.findOne({userid:usernameid}, function (err, doc) {
           if (err) {
               // handle error
           }
@@ -237,7 +237,7 @@ Detail.findOne({
   if (user){
   const buf1 = Buffer.from(user.password);
   const buf2 = Buffer.from(req.body.password);
-  userid=user._id;
+  let userid=user._id;
     if(Buffer.compare(buf1,buf2)==0){
       Story.find({}, function(err, data) {
         console.log(user);
