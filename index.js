@@ -242,6 +242,7 @@ Detail.findOne({
       Story.find({}, function(err, data) {
         console.log(user);
         usernameid = userid
+            console.log(usernameid +" heyyy!!");
           res.render('homepage', {
               stories:data,val:userid
           });
