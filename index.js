@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT||3000;
 //connect to mongodb
-let userid;
+let usernameid;
 const dbUri="mongodb+srv://stories:stories123@stories.gltdd.mongodb.net/login?retryWrites=true&w=majority";
 
 mongoose.connect(dbUri,{useNewUrlParser:true ,useUnifiedTopology:true})
@@ -21,27 +21,74 @@ app.listen(PORT,()=>console.log('listening to 3000'))
 .catch((err)=> console.log(err));
 app.set('view engine','ejs');
 ////////////////////
+
 app.use(function(req, res, next) {
-    if (!req.user) {
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.header('Expires', '-1');
-        res.header('Pragma', 'no-cache');
-    }
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     next();
-});
+  });
+
 
 app.use(express.static('public'));
 app.get('/',(req,res)=>{
   res.render('index')
 });
+
+
 app.get('/register',(req,res)=>{
   res.render('register')
 });
+
+
 app.get('/login',(req,res)=>{
 
   res.render('login')
 });
 
+app.get('/homepage',(req,res)=>{
+if (usernameid){
+  res.render('homepage');
+}else{
+res.redirect('/login')
+}
+})
+
+app.get('/createstory',(req,res)=>{
+if (usernameid){
+  res.render('createstory');
+}else{
+res.redirect('/login')
+}
+})
+
+app.get('/created',(req,res)=>{
+if (usernameid){
+  res.render('created');
+}else{
+res.redirect('/login')
+}
+})
+
+app.get('/plagiarism',(req,res)=>{
+if (usernameid){
+  res.render('plagiarism');
+}else{
+res.redirect('/login')
+}
+})
+
+app.get('/userexist',(req,res)=>{
+if (usernameid){
+  res.render('userexist');
+}else{
+res.redirect('/login')
+}
+})
+
+app.get('/logout',(req,res)=>{
+usernameid = ""
+res.redirect('/')
+
+})
 
 app.get('/story/:id',(req,res)=>{
   console.log(userid)
@@ -88,10 +135,14 @@ app.get('/story/:id',(req,res)=>{
   Story.findById(val)
   .then(result =>{
     D.countDocuments(function (err, count) {
+     if(usernameid){
     res.render('story',{
       store:result,
       count:count
     })
+  }else {
+    res.redirect('/login')
+  }
     })
       });
   });
@@ -114,10 +165,14 @@ app.get('/homepage',function(req, res) {
     // mongoose operations are asynchronous, so you need to wait
     Story.find({}, function(err, data) {
       console.log(data);
+      if(usernameid){
         // note that data is an array of objects, not a single object!
         res.render('homepage', {
             stories:data, val:userid
         });
+      }else{
+        res.redirect('/login')
+      }
     });
 });
 
@@ -132,7 +187,7 @@ app.get('/logout',(req,res)=>{
       })
     }
 });
-res.render('logout')
+res.redirect('logout')
 });
 
 app.get('/createstory',(req,res)=>{
@@ -147,7 +202,7 @@ app.get('/createstory',(req,res)=>{
       })
     }
 });
-  res.render('createstory')
+  res.redirect('/createstory')
 });
 //////////////////////
 //register
@@ -164,14 +219,15 @@ app.post('/login',(req,res)=>{
       Detail.create(data)
       .then(user => {
 
-        res.render('login');
+        res.redirect('/login');
       })
     }else {
-      res.render("userexist");
+      res.redirect("/userexist");
     }
   })
 
 });
+
 
 //login
 app.post('/homepage',(req,res)=>{
@@ -185,6 +241,7 @@ Detail.findOne({
     if(Buffer.compare(buf1,buf2)==0){
       Story.find({}, function(err, data) {
         console.log(user);
+        usernameid = userid
           res.render('homepage', {
               stories:data,val:userid
           });
@@ -213,10 +270,10 @@ app.post('/createstory',(req,res)=>{
     if(!user){
       Story.create(info)
       .then(user => {
-        res.render('created');
+        res.redirect('/created');
       })
     }else {
-      res.render("plagiarism");
+      res.redirect("/plagiarism");
     }
   })
 });
