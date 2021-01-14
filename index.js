@@ -271,7 +271,7 @@ app.post('/createstory',(req,res)=>{
     if(!user){
       Story.create(info)
       .then(user => {
-        res.redirect('/homepage');
+        res.redirect('/created');
       })
     }else {
       res.redirect("/plagiarism");
